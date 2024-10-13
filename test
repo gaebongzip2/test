@@ -50,3 +50,11 @@ file:
 #    org.hibernate.type: trace
 #    org.hibernate.SQL: debug
 #    org.hibernate.type.descriptor.sql: trace
+
+!---
+#---
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
