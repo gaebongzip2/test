@@ -1,0 +1,102 @@
+
+    GridBagLayout gBag;
+    public GridBagLayoutEx02() {
+        //삽입할 컴포넌트 생성.
+        Label lblReceive = new Label("받는 사람:",Label.RIGHT);
+        Label lblContent = new Label("내 용:",Label.RIGHT);
+        Label lblFile = new Label("첨부 파일:",Label.RIGHT);
+        Button btnSearch = new Button("찾아보기");
+        Button btnSend = new Button("보내기");
+        TextField toPerson = new TextField(40);
+        TextField file = new TextField(30);
+        TextArea content = new TextArea(5,40);
+        gBag = new GridBagLayout(); //GridBagLayout 생성
+       
+        setLayout(gBag);
+        gbinsert(lblReceive, 0, 0, 1, 1); //GridBagLayout에 삽입 , 모눈종이에 컴포넌트를 배치한다고 생각
+        gbinsert(toPerson, 1, 0, 3, 1);    
+        gbinsert(lblContent, 0, 1, 1, 1);
+        gbinsert(content, 1, 1, 3, 1);
+        gbinsert(lblFile, 0, 2, 1, 1);
+        gbinsert(file, 1, 2, 2, 1);
+        gbinsert(btnSearch, 3, 2, 1, 1);
+        gbinsert(btnSend, 0, 3, 4, 1);
+       
+       
+        this.pack();
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+   
+    public void gbinsert(Component c, int x, int y, int w, int h){
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill= GridBagConstraints.BOTH;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = w;
+        gbc.gridheight = h;
+        gBag.setConstraints(c,gbc);
+        this.add(c);
+       
+       
+    }
+   
+}
+
+
+// 테이블을 생성한다.
+JTable table = new JTable();
+// 테이블을 올릴 스크롤페인을 생성한다.
+JScrollPane sp_table = new JScrollPane();
+// 테이블의 선택모드를 설정한다.(여기에서는 컨트롤키로 여러가지를 선택할 수 있도록 다중선택모드로 한다.)
+table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+// 보더를 설정한다.(여기에서는 깔끔하기 보더는 없앴다.)
+sp_table.setBorder(BorderFactory.createEmptyBorder());
+// 테이블중 사용자가 없는 부분은 회색(기본색상)으로 나타나기 때문에 이부분은 뷰포트를 얻어서 백그라운드로 흰색을 준다.
+sp_table.getViewport().setBackground(Color.WHITE);
+// 헤더의 컬럼의 라벨을 내가 직접제어할 수있도록, 자동생성하는 것을 금지한다.        
+table.setAutoCreateColumnsFromModel(false);
+// 모델을 생성한다.
+AbstractTableModel table_model = new MyTableModel();
+// 테이블에 모델을 설정한다. 물론 테이블생성시 생성자에 모델을 추가해도 상관없다.
+table.setModel(table_model);
+
+
+table.setRowSorter(new TableRowSorter(table_model));
+
+int index = table.convertRowIndexToModel(2);
+
+int indexs[] = table.getSelectedRows();
+for(int i=0; i
+  indexs[i] = table.convertRowIndexToModel(indexs[i]);
+}
+
+@Override
+ public void mouseClicked(MouseEvent e) {
+  int row = table.getSelectedRow();
+  int col = table.getSelectedColumn();
+  for (int i = 0; i < table.getColumnCount(); i++) {
+   System.out.print(table.getModel().getValueAt(row, i )+"\t"); 
+  } }
+
+public void display(){
+  Container c = getContentPane();
+  
+  dataSetting();
+  
+  model = new DefaultTableModel(data, colName);
+  showAllData();
+  table = new JTable(model);
+  table.getColumnModel().getColumn(7).setPreferredWidth(150);
+  //ListSelectionModel.SINGLE_SELECTION은 행의 선택을 여러개 할 수 없고
+  //하나의 행만 선택할 수 있도록 지정합니다. 
+  //아래 코드를 주석 처리한 후 ctrl이나 shift를 누르고 row를 선택하면
+  //여러개의 행을 선택할 수 있습니다.
+  table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+  
+  JScrollPane scroll = new JScrollPane(table);
+  c.add(scroll,BorderLayout.CENTER);
+ }
+
+
+
