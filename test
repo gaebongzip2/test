@@ -1,0 +1,52 @@
+server:
+  servlet:
+    session:
+      timeout: 1800
+      tracking-modes: cookie
+  error:
+    whitelabel:
+      enabled: true
+
+spring:
+  application:
+    name: demom
+  messages:
+    basename: messages, errors
+  sql:
+    init:
+      #schema-locations:
+      #  - classpath:testdb/schema/schema.sql
+      #data-locations:
+      #  - classpath:db/data/data.sql
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    open-in-view: false
+    database-platform: org.hibernate.dialect.HSQLDialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+      #generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 200MB
+file:
+  dir: /xxxxx/
+
+
+#logging:
+#  level:
+#    org.hibernate.type: trace
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql: trace
